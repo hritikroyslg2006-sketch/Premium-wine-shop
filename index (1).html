@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Velvet Vine — Premium Wine Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --burgundy:      #5C0A14;
+    --burgundy-deep: #3A0008;
+    --burgundy-mid:  #7A1020;
+    --gold:          #C9A84C;
+    --gold-light:    #E2C97E;
+    --gold-dim:      #8B6B2A;
+    --charcoal:      #1A1A1A;
+    --charcoal-mid:  #2C2C2C;
+    --charcoal-soft: #3E3E3E;
+    --cream:         #F5EFE6;
+    --cream-dark:    #E8DDD0;
+    --white:         #FDFAF6;
+    --text-light:    #D4C5B0;
+    --text-dim:      #9A8B7A;
+    --shadow-gold:   0 0 40px rgba(201,168,76,0.15);
+    --shadow-dark:   0 8px 40px rgba(0,0,0,0.5);
+    --transition:    0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: var(--charcoal);
+    color: var(--cream);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ─── SCROLLBAR ─────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--charcoal); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+  /* ─── NOISE OVERLAY ─────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
+  }
+
+  /* ─── NAVIGATION ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+    height: 80px;
+    background: linear-gradient(180deg, rgba(26,26,26,0.97) 0%, rgba(26,26,26,0.92) 100%);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    transition: var(--transition);
+  }
+  nav.scrolled {
+    height: 64px;
+    background: rgba(18,18,18,0.98);
+    border-bottom-color: rgba(201,168,76,0.25);
+  }
+
+  .nav-logo {
+    display: flex; flex-direction: column; line-height: 1;
+    text-decoration: none;
+  }
+  .nav-logo-main {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+  }
+  .nav-logo-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.7rem; font-style: italic;
+    color: var(--text-dim); letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem; font-weight: 400;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-light);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition);
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transform-origin: center;
+    transition: transform var(--transition);
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .cart-btn {
+    background: none; border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold); cursor: pointer;
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.5rem 1.1rem; border-radius: 2px;
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.12em;
+    transition: var(--transition);
+    position: relative;
+  }
+  .cart-btn:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    box-shadow: var(--shadow-gold);
+  }
+  .cart-count {
+    background: var(--burgundy); color: var(--gold-light);
+    font-size: 0.65rem; font-weight: 600;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .cart-count.bump { transform: scale(1.4); }
+  .cart-icon { font-size: 1rem; }
+
+  /* ─── HERO ───────────────────────────────────────────── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(92,10,20,0.55) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 20% 70%, rgba(58,0,8,0.6) 0%, transparent 55%),
+      linear-gradient(135deg, #0d0607 0%, #1a0a0e 30%, #2a0d12 60%, #0e0607 100%);
+  }
+
+  /* Decorative geometric lines */
+  .hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 80px,
+        rgba(201,168,76,0.03) 80px,
+        rgba(201,168,76,0.03) 81px
+      );
+  }
+
+  /* Wine glass silhouette */
+  .hero-decor {
+    position: absolute; right: 8%; top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(12rem, 22vw, 22rem);
+    opacity: 0.04;
+    line-height: 1;
+    user-select: none;
+    animation: float 8s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(-50%) rotate(-2deg); }
+    50%       { transform: translateY(-53%) rotate(2deg); }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; max-width: 780px;
+    padding: 0 2rem;
+    animation: heroIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif; font-size: 0.72rem;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.85;
+    margin-bottom: 1.5rem;
+    animation: heroIn 1.2s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+    animation: heroIn 1.2s 0.3s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold-light);
+    display: block;
+  }
+  .hero-subtitle {
+    font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-light); margin: 1.5rem auto 2.5rem;
+    max-width: 500px; letter-spacing: 0.02em;
+    animation: heroIn 1.2s 0.45s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .hero-divider {
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    margin-bottom: 2.5rem;
+    animation: heroIn 1.2s 0.55s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .hero-divider span { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .hero-divider span:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+  .hero-divider i { color: var(--gold); font-size: 0.8rem; font-style: normal; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-mid) 100%);
+    color: var(--gold-light); border: 1px solid rgba(201,168,76,0.3);
+    padding: 1rem 2.5rem;
+    font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.2em;
+    text-transform: uppercase; text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+    animation: heroIn 1.2s 0.65s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 100%);
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .btn-primary:hover { border-color: var(--gold); box-shadow: var(--shadow-gold); transform: translateY(-2px); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary .arrow { font-size: 1rem; transition: transform var(--transition); }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--text-dim); font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; animation: fadeInUp 2s 1.5s both;
+  }
+  .scroll-hint::after {
+    content: ''; display: block;
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, var(--gold-dim), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.4; height:30px;} 50%{opacity:1; height:50px;} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateX(-50%) translateY(20px);} to{opacity:1;transform:translateX(-50%) translateY(0);} }
+
+  /* ─── SECTION SHARED ─────────────────────────────────── */
+  section { padding: 6rem 0; }
+
+  .section-header {
+    text-align: center; margin-bottom: 4rem;
+  }
+  .section-label {
+    font-family: 'Cinzel', serif; font-size: 0.68rem;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); display: block; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300; font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--white); line-height: 1.1;
+  }
+  .section-title em { color: var(--gold-light); font-style: italic; }
+  .section-rule {
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    margin-top: 1rem;
+  }
+  .section-rule::before, .section-rule::after {
+    content: ''; flex: 1; max-width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+  .section-rule::after { background: linear-gradient(90deg, var(--gold-dim), transparent); }
+  .section-rule span { color: var(--gold); font-size: 0.7rem; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ─── SHOP ───────────────────────────────────────────── */
+  #shop { background: var(--charcoal); }
+
+  .filter-bar {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.75rem; margin-bottom: 3rem; flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: none; border: 1px solid rgba(201,168,76,0.25);
+    color: var(--text-dim);
+    padding: 0.5rem 1.4rem;
+    font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.15em;
+    cursor: pointer; transition: var(--transition); border-radius: 1px;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold); color: var(--gold);
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .product-card {
+    background: linear-gradient(160deg, #222222 0%, #1c1c1c 100%);
+    border: 1px solid rgba(201,168,76,0.1);
+    position: relative; overflow: hidden;
+    transition: var(--transition);
+    display: flex; flex-direction: column;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201,168,76,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), var(--shadow-gold);
+  }
+  .product-card:hover::before { opacity: 1; }
+
+  .card-image {
+    height: 240px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Unique gradient background per card type */
+  .card-image.red    { background: radial-gradient(ellipse at 50% 30%, #4a0a14 0%, #1a0005 100%); }
+  .card-image.white  { background: radial-gradient(ellipse at 50% 30%, #2e2a1e 0%, #151210 100%); }
+  .card-image.bubbly { background: radial-gradient(ellipse at 50% 30%, #1a1e2e 0%, #0c0e18 100%); }
+
+  .bottle-svg {
+    width: 80px; height: 200px;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
+    transition: transform var(--transition);
+  }
+  .product-card:hover .bottle-svg { transform: scale(1.05) translateY(-4px); }
+
+  .badge {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--burgundy);
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em;
+    padding: 0.25rem 0.6rem; border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+  .card-category {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.4rem;
+  }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400;
+    color: var(--white); line-height: 1.2; margin-bottom: 0.3rem;
+  }
+  .card-origin {
+    font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0.75rem;
+  }
+  .card-stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 0.6rem; letter-spacing: 0.08em; }
+  .card-desc {
+    font-size: 0.92rem; color: var(--text-light); line-height: 1.6;
+    margin-bottom: 1.25rem; flex: 1;
+  }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(201,168,76,0.1); padding-top: 1.25rem;
+  }
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; color: var(--gold-light);
+    line-height: 1;
+  }
+  .card-price small { font-size: 0.85rem; color: var(--text-dim); }
+
+  .add-to-cart {
+    background: none; border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold); cursor: pointer;
+    padding: 0.6rem 1.2rem;
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.12em;
+    transition: var(--transition); border-radius: 1px;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .add-to-cart:hover {
+    background: var(--burgundy); border-color: var(--burgundy-mid); color: var(--gold-light);
+    box-shadow: 0 4px 20px rgba(92,10,20,0.5);
+  }
+  .add-to-cart.added { background: var(--burgundy-deep); color: var(--gold); border-color: var(--gold-dim); }
+
+  /* ─── CART SIDEBAR ───────────────────────────────────── */
+  .cart-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 2000; opacity: 0; pointer-events: none;
+    transition: opacity var(--transition);
+    backdrop-filter: blur(4px);
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-sidebar {
+    position: fixed; right: 0; top: 0; bottom: 0;
+    width: min(420px, 100vw);
+    background: linear-gradient(160deg, #1e1e1e 0%, #181818 100%);
+    border-left: 1px solid rgba(201,168,76,0.2);
+    z-index: 2001;
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column;
+    box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+  }
+  .cart-sidebar.open { transform: translateX(0); }
+
+  .cart-header {
+    padding: 1.75rem 2rem;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cart-title {
+    font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .cart-close {
+    background: none; border: none; color: var(--text-dim);
+    cursor: pointer; font-size: 1.3rem; line-height: 1;
+    transition: color var(--transition); padding: 0.25rem;
+  }
+  .cart-close:hover { color: var(--gold); }
+
+  .cart-items { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+
+  .cart-empty {
+    text-align: center; padding: 3rem 0;
+    color: var(--text-dim); font-style: italic;
+    font-family: 'EB Garamond', serif; font-size: 1.05rem;
+  }
+  .cart-empty::before {
+    content: '🍷'; display: block; font-size: 3rem;
+    margin-bottom: 1rem; opacity: 0.4;
+  }
+
+  .cart-item {
+    display: grid; grid-template-columns: 48px 1fr auto;
+    gap: 1rem; align-items: center;
+    padding: 1rem 0; border-bottom: 1px solid rgba(201,168,76,0.08);
+    animation: slideInRight 0.3s cubic-bezier(0.22,1,0.36,1);
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .cart-item-icon {
+    width: 48px; height: 48px;
+    background: var(--burgundy-deep);
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .cart-item-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+    color: var(--white); line-height: 1.2;
+  }
+  .cart-item-meta {
+    font-family: 'EB Garamond', serif; font-size: 0.82rem;
+    color: var(--text-dim); margin-top: 0.2rem;
+  }
+  .cart-item-controls {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem;
+  }
+  .cart-item-price {
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+    color: var(--gold-light);
+  }
+  .qty-controls {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .qty-btn {
+    background: none; border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold); width: 22px; height: 22px;
+    font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+  }
+  .qty-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+  .qty-num { font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--white); min-width: 14px; text-align: center; }
+
+  .cart-footer { padding: 1.5rem 2rem; border-top: 1px solid rgba(201,168,76,0.2); }
+  .cart-subtotal {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 0.5rem;
+  }
+  .cart-subtotal-label {
+    font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.15em;
+    color: var(--text-dim); text-transform: uppercase;
+  }
+  .cart-subtotal-val {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
+    font-weight: 300; color: var(--gold-light);
+  }
+  .cart-note { font-size: 0.8rem; color: var(--text-dim); font-style: italic; margin-bottom: 1.25rem; }
+
+  .btn-checkout {
+    width: 100%; background: linear-gradient(135deg, var(--burgundy), var(--burgundy-mid));
+    border: 1px solid rgba(201,168,76,0.3); color: var(--gold-light);
+    padding: 1rem; cursor: pointer;
+    font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.2em;
+    transition: var(--transition); text-transform: uppercase;
+  }
+  .btn-checkout:hover {
+    background: linear-gradient(135deg, var(--burgundy-mid), #8a1520);
+    border-color: var(--gold); box-shadow: var(--shadow-gold);
+  }
+  .btn-clear {
+    width: 100%; margin-top: 0.75rem;
+    background: none; border: none; color: var(--text-dim);
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.1em;
+    cursor: pointer; transition: color var(--transition); padding: 0.4rem;
+    text-transform: uppercase;
+  }
+  .btn-clear:hover { color: var(--gold-dim); }
+
+  /* ─── ABOUT BANNER ───────────────────────────────────── */
+  #about {
+    background: linear-gradient(135deg, var(--burgundy-deep) 0%, #2a0508 50%, var(--burgundy-deep) 100%);
+    position: relative; overflow: hidden;
+  }
+  #about::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 60px,
+      rgba(201,168,76,0.03) 60px, rgba(201,168,76,0.03) 61px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 60px,
+      rgba(201,168,76,0.03) 60px, rgba(201,168,76,0.03) 61px
+    );
+  }
+
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .about-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-circle {
+    width: 340px; height: 340px; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .about-circle::before {
+    content: '';
+    position: absolute; inset: 16px; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+  .about-circle-text {
+    font-size: 8rem; opacity: 0.5;
+    animation: float 10s ease-in-out infinite;
+  }
+  .about-year {
+    position: absolute; bottom: 20px; right: 20px;
+    font-family: 'Cinzel', serif; font-size: 0.7rem;
+    letter-spacing: 0.2em; color: var(--gold-dim);
+  }
+
+  .about-content h2 {
+    font-family: 'Cormorant Garamond', serif; font-size: 2.5rem;
+    font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 1.5rem;
+  }
+  .about-content h2 em { color: var(--gold-light); font-style: italic; }
+  .about-content p {
+    color: var(--text-light); line-height: 1.8; margin-bottom: 1.25rem; font-size: 1rem;
+  }
+  .about-stats {
+    display: flex; gap: 2rem; margin-top: 2rem;
+    border-top: 1px solid rgba(201,168,76,0.15); padding-top: 2rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 2.5rem;
+    font-weight: 300; color: var(--gold-light); display: block; line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase; margin-top: 0.3rem; display: block;
+  }
+
+  /* ─── CONTACT ─────────────────────────────────────────── */
+  #contact { background: var(--charcoal-mid); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 4rem; align-items: start;
+  }
+  .contact-info h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300;
+    color: var(--white); margin-bottom: 2rem; line-height: 1.2;
+  }
+  .info-block { margin-bottom: 1.75rem; }
+  .info-label {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.4rem; display: block;
+  }
+  .info-val {
+    font-family: 'EB Garamond', serif; font-size: 1rem;
+    color: var(--text-light); line-height: 1.7;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold-dim);
+  }
+  .form-control {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.15);
+    color: var(--white); padding: 0.85rem 1rem;
+    font-family: 'EB Garamond', serif; font-size: 1rem;
+    transition: var(--transition); outline: none; border-radius: 1px;
+    width: 100%;
+  }
+  .form-control:focus { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.04); }
+  .form-control::placeholder { color: var(--text-dim); }
+  textarea.form-control { resize: vertical; min-height: 130px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .btn-send {
+    background: linear-gradient(135deg, var(--burgundy), var(--burgundy-mid));
+    border: 1px solid rgba(201,168,76,0.3); color: var(--gold-light);
+    padding: 1rem 2rem; cursor: pointer;
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.2em;
+    text-transform: uppercase; transition: var(--transition); align-self: flex-start;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .btn-send:hover { border-color: var(--gold); box-shadow: var(--shadow-gold); transform: translateY(-2px); }
+
+  .success-msg {
+    display: none; padding: 1rem; border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(201,168,76,0.05); color: var(--gold-light);
+    font-family: 'EB Garamond', serif; font-size: 0.95rem; font-style: italic;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────── */
+  footer {
+    background: var(--charcoal); border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 3rem 0 2rem;
+  }
+  .footer-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Cinzel', serif; font-size: 1.3rem;
+    letter-spacing: 0.12em; color: var(--gold);
+  }
+  .footer-tagline { font-style: italic; color: var(--text-dim); font-size: 0.9rem; }
+  .footer-links {
+    display: flex; gap: 2rem; list-style: none;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .footer-links a {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-dim); text-decoration: none;
+    transition: color var(--transition);
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-divider { width: 40px; height: 1px; background: rgba(201,168,76,0.2); }
+  .footer-legal {
+    font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.1em;
+    color: var(--text-dim); text-transform: uppercase;
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 0.6rem 1.5rem; display: inline-block;
+  }
+  .footer-legal strong { color: var(--gold-dim); }
+  .footer-copy { color: var(--text-dim); font-size: 0.75rem; }
+
+  /* ─── TOAST ──────────────────────────────────────────── */
+  .toast-container {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    z-index: 3000; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;
+  }
+  .toast {
+    background: var(--charcoal-mid); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    padding: 0.75rem 1.5rem;
+    font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.12em;
+    animation: toastIn 0.3s cubic-bezier(0.22,1,0.36,1), toastOut 0.3s 2.5s forwards;
+    white-space: nowrap;
+    box-shadow: var(--shadow-dark);
+  }
+  @keyframes toastIn  { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes toastOut { from{opacity:1;} to{opacity:0; transform:translateY(-8px);} }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-visual { display: none; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .about-stats { gap: 1.25rem; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .product-grid { grid-template-columns: 1fr; }
+    .hero-content { padding: 0 1.25rem; }
+    section { padding: 4rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─────────────────────────────────────── -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <span class="nav-logo-main">The Velvet Vine</span>
+    <span class="nav-logo-sub">Fine Wines & Spirits</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+    <span class="cart-icon">🛒</span>
+    Cart
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- ─── CART OVERLAY & SIDEBAR ────────────────────────── -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar" role="dialog" aria-label="Shopping cart">
+  <div class="cart-header">
+    <span class="cart-title">Your Selection</span>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">Your cellar is empty.<br>Discover our collection below.</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span class="cart-subtotal-label">Total</span>
+      <span class="cart-subtotal-val" id="cartTotal">$0.00</span>
+    </div>
+    <p class="cart-note">Shipping & taxes calculated at checkout</p>
+    <button class="btn-checkout" id="checkoutBtn">Proceed to Checkout →</button>
+    <button class="btn-clear" id="clearCartBtn">Clear Cart</button>
+  </div>
+</aside>
+
+<!-- ─── HERO ───────────────────────────────────────────── -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-decor">🍷</div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 1987 · Napa Valley, California</p>
+    <h1 class="hero-title">Where Every Sip<em>Tells a Story</em></h1>
+    <div class="hero-divider">
+      <span></span><i>✦</i><span></span>
+    </div>
+    <p class="hero-subtitle">Curated expressions from the world's most celebrated vineyards, delivered to your door.</p>
+    <a href="#shop" class="btn-primary">
+      Explore Our Collection <span class="arrow">→</span>
+    </a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ─── SHOP ───────────────────────────────────────────── -->
+<section id="shop">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">The Collection</span>
+      <h2 class="section-title">Our <em>Finest</em> Selections</h2>
+      <div class="section-rule"><span>✦</span></div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All Wines</button>
+      <button class="filter-btn" data-filter="red">Red Wine</button>
+      <button class="filter-btn" data-filter="white">White Wine</button>
+      <button class="filter-btn" data-filter="champagne">Champagne</button>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ──────────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-circle">
+          <div class="about-circle-text">🍾</div>
+          <span class="about-year">Since 1987</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <h2>A Legacy of <em>Uncompromising</em> Taste</h2>
+        <p>The Velvet Vine was founded on a simple conviction: exceptional wine deserves an exceptional home. For over three decades, we have sought out the world's most extraordinary vineyards, building lasting relationships with winemakers who share our reverence for the craft.</p>
+        <p>Each bottle in our cellar is chosen not merely for its score or provenance, but for the story it carries — the specific microclimate, the hands that tended the vines, the patience that shaped every vintage into something transcendent.</p>
+        <p>We invite you to explore our curated collection and find the wine that speaks to you.</p>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-num">500+</span>
+            <span class="stat-label">Varietals</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">38</span>
+            <span class="stat-label">Years</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">40+</span>
+            <span class="stat-label">Countries</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ────────────────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Find Us</span>
+      <h2 class="section-title">Visit the <em>Cellar</em></h2>
+      <div class="section-rule"><span>✦</span></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Come taste the difference that passion makes.</h3>
+        <div class="info-block">
+          <span class="info-label">Address</span>
+          <div class="info-val">1247 Vineyard Lane<br>St. Helena, Napa Valley<br>California 94574</div>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Hours</span>
+          <div class="info-val">
+            Mon – Fri: 10:00 am – 8:00 pm<br>
+            Saturday: 10:00 am – 9:00 pm<br>
+            Sunday: 11:00 am – 6:00 pm
+          </div>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Phone</span>
+          <div class="info-val">+1 (707) 555-0192</div>
+        </div>
+        <div class="info-block">
+          <span class="info-label">Email</span>
+          <div class="info-val">hello@thevelvetvine.com</div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input class="form-control" type="text" id="fname" placeholder="Your first name" required />
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input class="form-control" type="text" id="lname" placeholder="Your last name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input class="form-control" type="email" id="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input class="form-control" type="text" id="subject" placeholder="Wine enquiry, event, etc." />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea class="form-control" id="message" placeholder="Tell us what you're looking for…" required></textarea>
+        </div>
+        <button type="submit" class="btn-send">Send Message <span>→</span></button>
+        <div class="success-msg" id="successMsg">
+          ✦ Thank you — we will be in touch within one business day.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">The Velvet Vine</div>
+      <div class="footer-tagline">Fine Wines &amp; Spirits · Est. 1987 · Napa Valley</div>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="footer-divider"></div>
+      <div class="footer-legal">
+        <strong>⚠ Drink Responsibly</strong> · Must be <strong>21+</strong> to purchase alcohol.
+        Do not drink and drive.
+      </div>
+      <div class="footer-copy">© 2025 The Velvet Vine. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── TOAST CONTAINER ───────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ─── JAVASCRIPT ─────────────────────────────────────── -->
+<script>
+/* ═══════════════════════════════════════════════════════
+   PRODUCT DATA
+═══════════════════════════════════════════════════════ */
+const products = [
+  {
+    id: 1, category: 'red',
+    name: 'Château Margaux Reserve', origin: 'Bordeaux, France',
+    price: 189, badge: 'Best Seller',
+    stars: '★★★★★', rating: 5,
+    desc: 'A symphony of dark fruit, cedar, and velvety tannins with an extraordinary, lingering finish that defines Bordeaux elegance.',
+    emoji: '🍷', imageClass: 'red',
+    bottleColor: ['#6B0F1A','#8B1422','#4A0810','#C9A84C']
+  },
+  {
+    id: 2, category: 'white',
+    name: 'Domaine Leflaive Blanc', origin: 'Puligny-Montrachet, Burgundy',
+    price: 145, badge: 'Staff Pick',
+    stars: '★★★★★', rating: 5,
+    desc: 'Pure, mineral-driven Chardonnay with notes of white peach, honeysuckle, and a crisp, refreshing acidity on the palate.',
+    emoji: '🥂', imageClass: 'white',
+    bottleColor: ['#4A4020','#6B5C2A','#332D18','#D4AF5C']
+  },
+  {
+    id: 3, category: 'champagne',
+    name: 'Dom Pérignon Vintage', origin: 'Épernay, Champagne',
+    price: 320, badge: 'Premium',
+    stars: '★★★★★', rating: 5,
+    desc: 'An iconic prestige cuvée — brioche, toasted almonds, white flowers, and citrus zest in an effervescent masterpiece of precision.',
+    emoji: '🍾', imageClass: 'bubbly',
+    bottleColor: ['#1C2A1C','#2A3D2A','#142014','#C9A84C']
+  },
+  {
+    id: 4, category: 'red',
+    name: 'Opus One Napa Valley', origin: 'Oakville, California',
+    price: 375, badge: 'Collector',
+    stars: '★★★★★', rating: 5,
+    desc: 'A bold Napa Cabernet Sauvignon-led blend with blackcurrant, dark chocolate, and smoky oak notes of stunning complexity.',
+    emoji: '🍷', imageClass: 'red',
+    bottleColor: ['#1A0408','#2D0810','#0E0204','#B8942A']
+  },
+  {
+    id: 5, category: 'white',
+    name: 'Cloudy Bay Sauvignon Blanc', origin: 'Marlborough, New Zealand',
+    price: 48, badge: 'New Arrival',
+    stars: '★★★★☆', rating: 4,
+    desc: 'Vivid and expressive with tropical passionfruit, fresh lime, and herbaceous undertones. A benchmark of New World Sauvignon.',
+    emoji: '🥂', imageClass: 'white',
+    bottleColor: ['#3A3820','#54502E','#282618','#C8B45A']
+  },
+  {
+    id: 6, category: 'champagne',
+    name: 'Moët & Chandon Impérial', origin: 'Épernay, Champagne',
+    price: 95, badge: 'Celebration',
+    stars: '★★★★☆', rating: 4,
+    desc: 'Fresh and elegant with green apple, pear, and lively citrus notes. The perfect champagne for life\'s milestone moments.',
+    emoji: '🍾', imageClass: 'bubbly',
+    bottleColor: ['#243020','#354828','#182218','#D4C060']
+  }
+];
+
+/* ═══════════════════════════════════════════════════════
+   CART STATE
+═══════════════════════════════════════════════════════ */
+let cart = [];
+
+/* ═══════════════════════════════════════════════════════
+   BOTTLE SVG GENERATOR
+═══════════════════════════════════════════════════════ */
+function bottleSVG(colors) {
+  const [dark, mid, darkest, gold] = colors;
+  return `
+    <svg class="bottle-svg" viewBox="0 0 80 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bg${colors[0].replace('#','')}" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="${darkest}"/>
+          <stop offset="40%" stop-color="${mid}"/>
+          <stop offset="100%" stop-color="${dark}"/>
+        </linearGradient>
+        <linearGradient id="shine${colors[0].replace('#','')}" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.0)"/>
+          <stop offset="30%" stop-color="rgba(255,255,255,0.08)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0.0)"/>
+        </linearGradient>
+      </defs>
+      <!-- Capsule top -->
+      <rect x="30" y="4" width="20" height="22" rx="3"
+        fill="${gold}" opacity="0.85"/>
+      <!-- Neck -->
+      <rect x="28" y="22" width="24" height="38" rx="2"
+        fill="url(#bg${colors[0].replace('#','')})"/>
+      <!-- Shoulder curve -->
+      <path d="M14 78 Q14 60 28 58 L28 22 L52 22 L52 58 Q66 60 66 78Z"
+        fill="url(#bg${colors[0].replace('#','')})"/>
+      <!-- Body -->
+      <rect x="14" y="78" width="52" height="104" rx="6"
+        fill="url(#bg${colors[0].replace('#','')})"/>
+      <!-- Label -->
+      <rect x="18" y="100" width="44" height="54" rx="2"
+        fill="rgba(255,255,255,0.06)" stroke="${gold}" stroke-width="0.5" stroke-opacity="0.4"/>
+      <line x1="22" y1="115" x2="58" y2="115" stroke="${gold}" stroke-width="0.5" stroke-opacity="0.35"/>
+      <line x1="22" y1="140" x2="58" y2="140" stroke="${gold}" stroke-width="0.5" stroke-opacity="0.35"/>
+      <!-- Base -->
+      <rect x="14" y="176" width="52" height="6" rx="3"
+        fill="${darkest}" opacity="0.8"/>
+      <!-- Shine -->
+      <rect x="14" y="60" width="52" height="122" rx="6"
+        fill="url(#shine${colors[0].replace('#','')})"/>
+      <!-- Cork top dot -->
+      <circle cx="40" cy="10" r="4" fill="${gold}" opacity="0.6"/>
+    </svg>`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RENDER PRODUCTS
+═══════════════════════════════════════════════════════ */
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('productGrid');
+  const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" data-category="${p.category}" data-id="${p.id}">
+      <div class="card-image ${p.imageClass}">
+        ${bottleSVG(p.bottleColor)}
+        ${p.badge ? `<div class="badge">${p.badge}</div>` : ''}
+      </div>
+      <div class="card-body">
+        <span class="card-category">${p.category === 'champagne' ? 'Champagne' : p.category === 'red' ? 'Red Wine' : 'White Wine'}</span>
+        <div class="card-name">${p.name}</div>
+        <div class="card-origin">${p.origin}</div>
+        <div class="card-stars">${p.stars}</div>
+        <p class="card-desc">${p.desc}</p>
+        <div class="card-footer">
+          <div class="card-price">$${p.price}<small>/bottle</small></div>
+          <button class="add-to-cart" onclick="addToCart(${p.id})" data-btn="${p.id}">
+            + Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   FILTERS
+═══════════════════════════════════════════════════════ */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts(btn.dataset.filter);
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   CART LOGIC
+═══════════════════════════════════════════════════════ */
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  const existing = cart.find(i => i.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+
+  updateCartUI();
+  showToast(`${product.name} added to cart`);
+
+  // Bump count animation
+  const count = document.getElementById('cartCount');
+  count.classList.remove('bump');
+  void count.offsetWidth;
+  count.classList.add('bump');
+  setTimeout(() => count.classList.remove('bump'), 400);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) { removeFromCart(id); return; }
+  updateCartUI();
+}
+
+function clearCart() {
+  cart = [];
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count   = document.getElementById('cartCount');
+  const items   = document.getElementById('cartItems');
+  const empty   = document.getElementById('cartEmpty');
+  const total   = document.getElementById('cartTotal');
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+  const totalAmt = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  count.textContent = totalQty;
+
+  if (cart.length === 0) {
+    empty.style.display = '';
+    total.textContent = '$0.00';
+    // Remove item elements but keep empty msg
+    [...items.children].forEach(el => { if (!el.classList.contains('cart-empty')) el.remove(); });
+    return;
+  }
+
+  empty.style.display = 'none';
+  // Clear non-empty items and re-render
+  [...items.children].forEach(el => { if (!el.classList.contains('cart-empty')) el.remove(); });
+
+  cart.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.dataset.id = item.id;
+    el.innerHTML = `
+      <div class="cart-item-icon">${item.emoji}</div>
+      <div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">$${item.price} / bottle</div>
+      </div>
+      <div class="cart-item-controls">
+        <span class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</span>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+        </div>
+      </div>
+    `;
+    items.appendChild(el);
+  });
+
+  total.textContent = `$${totalAmt.toFixed(2)}`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CART OPEN / CLOSE
+═══════════════════════════════════════════════════════ */
+function openCart() {
+  document.getElementById('cartSidebar').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+document.getElementById('cartOverlay').addEventListener('click', closeCart);
+document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+  if (cart.length === 0) {
+    showToast('Your cart is empty!');
+    return;
+  }
+  showToast('Redirecting to checkout…');
+  setTimeout(() => { closeCart(); clearCart(); }, 1800);
+});
+
+/* ═══════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════ */
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAVBAR SCROLL
+═══════════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ═══════════════════════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════════════════════ */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  if (!fname || !email || !message) {
+    showToast('Please fill in all required fields.');
+    return;
+  }
+  const btn = this.querySelector('.btn-send');
+  btn.textContent = 'Sending…';
+  setTimeout(() => {
+    document.getElementById('successMsg').style.display = 'block';
+    btn.textContent = 'Sent ✓';
+    btn.style.opacity = '0.6';
+    this.reset();
+  }, 900);
+});
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════ */
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>
